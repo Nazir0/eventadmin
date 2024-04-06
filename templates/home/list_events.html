@@ -1,0 +1,16 @@
+{% extends '../base_generic.html' %}
+
+{% block content %}
+<h2>My Events</h2>
+<p>Welcome, {{ username }}!</p>
+<ul>
+    {% for event in events %}
+    <li>{{ event.name }} - {{ event.date }} - {{ event.location }}</li>
+    {% empty %}
+    <li>No events found.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_event' %}">
+    <button>Create a new event</button>
+</a>
+{% endblock %}

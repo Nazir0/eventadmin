@@ -14,7 +14,9 @@ def create_event(request):
             event = form.save(commit=False)
             event.creator = request.user
             event.save()
-#            return redirect('home')
+            return redirect('home')
+        else:
+            return render(request, 'events/create_event.html', {'form': form})
     else:
         form = EventForm()
-    return render(request, 'events/create_event.html', {'form': form})
+        return render(request, 'events/create_event.html', {'form': form})
