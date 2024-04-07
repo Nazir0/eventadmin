@@ -5,7 +5,9 @@
 <p>Welcome, {{ username }}!</p>
 <ul>
     {% for event in events %}
-    <li>{{ event.name }} - {{ event.date }} - {{ event.location }}</li>
+    <li>
+        <a href="{% url 'event_detail' event.id %}">{{ event.name }} - {{ event.date }} - {{ event.location }}</a>
+    </li>
     {% empty %}
     <li>No events found.</li>
     {% endfor %}

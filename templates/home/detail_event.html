@@ -1,0 +1,44 @@
+{% extends '../base_generic.html' %}
+
+{% block content %}
+<style>
+    /* ... existing styles ... */
+    .participants {
+        margin-top: 20px;
+    }
+    .participants h2 {
+        color: #333;
+    }
+    .participants ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .participants ul li {
+        padding: 5px 0;
+    }
+</style>
+<div class="content">
+    <h1 class="event-title">{{ event.name }}</h1>
+    <p>{{ event.description }}</p>
+    <p>{{ event.date }}</p>
+    <p>Created by: {{ event.creator.username }}</p>
+
+    <div class="participants">
+        <h2>Participants:</h2>
+        <ul>
+            {% for participation in participations %}
+            <li>{{ participation.participant.username }}</li>
+            {% empty %}
+            <li>No participants yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <h2>Add Participant:</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Participant</button>
+    </form>
+</div>
+{% endblock %}
