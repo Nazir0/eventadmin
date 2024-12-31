@@ -6,7 +6,13 @@ from django.contrib.auth.decorators import login_required
 from .forms import EventForm
 from .models import Event
 from eventadmin import settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Event
+from .serializers import EventSerializer
 from participation.models import Participation
+
 
 @login_required
 def create_event(request):
@@ -39,3 +45,13 @@ def show_participants(event_id):
     event = get_object_or_404(Event, id=event_id)
     participants = Participation.objects.filter(event=event)
     return participants
+
+@api_view(['GET'])
+def user_events(request, username):
+    """
+    Retrieve all events for a specific user.
+    """
+    events = Event.objects.filter(creator__username=username).order_by('date')
+    serializer = EventSerializer(events, many=True)
+    return Response(serializer.data)
+
