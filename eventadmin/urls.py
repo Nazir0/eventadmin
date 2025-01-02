@@ -7,6 +7,7 @@ from accounts.views import event_users
 from accounts import views as accounts_views
 from events import views as events_views
 from home import views as home_views
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Admin site
@@ -15,7 +16,10 @@ urlpatterns = [
     path('home/', home_views.list_events, name='home'),  # List all events on the home page
     path('logout/', home_views.logout_view, name='logout'),  # Logout view
     path('event/<int:event_id>/', home_views.event_detail, name='event_detail'),  # Event detail page
-    path('api/events/<str:username>/', user_events, name='user_events'),  # API to get events for a specific user
+    path('api/event/<str:username>/', user_events, name='user_events'),  # API to get events for a specific user
     path('api/events/user/<int:event_id>/', event_users, name='event_users'),  # API to get users for a specific event
+    path('api/event/', events_views.event_api, name='event_api'), # API to create a new event
+    path('api/event/<int:event_id>/', events_views.event_api, name='event_api'),# API to modify, display or delete a new event
+    path('api/token/', obtain_auth_token, name='api_token_auth'),
     path('api-auth/', include('rest_framework.urls'))  # API authentication
 ]
